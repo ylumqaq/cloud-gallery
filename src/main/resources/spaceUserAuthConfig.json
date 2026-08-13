@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "picture:view": "查看图片",
+    "picture:upload": "上传图片",
+    "picture:edit": "编辑图片",
+    "picture:delete": "删除图片",
+    "spaceUser:manage": "管理空间成员"
+  },
+  "rolePermissionMap": {
+    "viewer": ["picture:view"],
+    "editor": ["picture:view", "picture:upload", "picture:edit"],
+    "admin": ["picture:view", "picture:upload", "picture:edit", "picture:delete", "spaceUser:manage"]
+  },
+  "publicPermissions": ["picture:view", "picture:upload"]
+}

@@ -1,0 +1,74 @@
+# ============================================================
+# 示例配置文件
+# 使用方式：复制本文件为 application.yml，并填入真实配置
+#   cp application-example.yml application.yml
+# 注意：application.yml 已在 .gitignore 中忽略，切勿将真实密钥提交到仓库
+# ============================================================
+server:
+  port: 8123                                  # 服务端口
+  servlet:
+    context-path: /api                        # 上下文路径，所有接口以 /api 开头
+
+spring:
+  application:
+    name: cloud-gallery
+  datasource:                                 # MySQL 业务库
+    url: jdbc:mysql://localhost:3306/cloud_gallery?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: "你的MySQL密码"                   # MySQL 密码（请替换）
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  data:
+    redis:                                    # Redis
+      host: localhost
+      port: 6379
+      password:                               # 无密码留空
+      database: 0
+  session:
+    store-type: redis                         # Spring Session 分布式会话，登录态存 Redis
+    timeout: 2592000                          # 会话超时（秒），30 天
+
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true        # 下划线 -> 驼峰自动映射
+  global-config:
+    db-config:
+      logic-delete-field: isDelete            # 逻辑删除字段
+      logic-delete-value: 1                   # 已删除
+      logic-not-delete-value: 0               # 未删除
+
+# PostgreSQL 向量库（pgvector），独立数据源
+pg:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: "你的PostgreSQL密码"              # PostgreSQL 密码（请替换）
+    driver-class-name: org.postgresql.Driver
+
+# 腾讯云 COS / 数据万象 CI（对象存储）
+cos:
+  secret-id: "你的腾讯云SecretId"              # 请替换为真实 SecretId
+  secret-key: "你的腾讯云SecretKey"            # 请替换为真实 SecretKey
+  bucket: "你的Bucket名称"                     # 例如 yu-picture-1317696751
+  region: ap-guangzhou                        # 例如 ap-guangzhou
+
+# 以图搜图策略：pg（本地 pgvector，默认）/ ci（腾讯云 CI 托管图片检索）
+image-search:
+  strategy: pg
+
+# Sa-Token 配置
+sa-token:
+  token-name: satoken                        # token 名称
+  timeout: 2592000                           # token 有效期（秒），30 天
+  is-concurrent: true                        # 允许同一账号并发登录
+  is-share: true                             # 同账号登录共享 token
+  token-style: uuid                          # token 风格
+  is-log: false                              # 是否输出操作日志
+
+# Knife4j 接口文档（访问地址：/api/doc.html）
+knife4j:
+  enable: false                            # 关闭增强模式（Knife4j 4.5.0 增强扩展与 springdoc 2.8.9 不兼容）
+  setting:
+    language: zh_cn                        # 文档界面语言
+
+# 分库分表（ShardingSphere）已通过 Java 配置类 ShardingSphereConfig 集成，
+# 按 space_id 对 picture 逻辑表分表，动态建表与规则刷新见 DynamicShardingManager。
