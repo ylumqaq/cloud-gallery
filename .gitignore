@@ -24,3 +24,15 @@ Thumbs.db
 
 # ===== 个人文档（不提交到仓库） =====
 docs/项目简历.md
+
+# ===== Deno 缓存（热铁盒部署产生）=====
+.deno_dir/
+
+# ===== 前端（frontend）构建产物与密钥 =====
+frontend/dist/
+frontend/.env
+
+# ===== 部署脚本（含服务器 IP 等敏感信息，不提交到仓库）=====
+/deploy-server.ps1
+/package.json
+/frontend/deploy-server.ps1
