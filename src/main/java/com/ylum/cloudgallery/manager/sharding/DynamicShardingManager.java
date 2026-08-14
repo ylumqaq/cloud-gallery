@@ -3,7 +3,6 @@ package com.ylum.cloudgallery.manager.sharding;
 import com.ylum.cloudgallery.common.BusinessException;
 import com.ylum.cloudgallery.common.ErrorCode;
 import org.apache.shardingsphere.infra.algorithm.core.config.AlgorithmConfiguration;
-import org.apache.shardingsphere.infra.config.rule.RuleConfiguration;
 import org.apache.shardingsphere.mode.manager.ContextManager;
 import org.apache.shardingsphere.sharding.api.config.ShardingRuleConfiguration;
 import org.apache.shardingsphere.sharding.api.config.rule.ShardingTableRuleConfiguration;

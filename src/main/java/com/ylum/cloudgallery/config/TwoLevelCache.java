@@ -1,7 +1,6 @@
 package com.ylum.cloudgallery.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.cache.Cache;
 import org.springframework.cache.support.AbstractValueAdaptingCache;
 import org.springframework.data.redis.core.StringRedisTemplate;
 
@@ -103,7 +102,9 @@ public class TwoLevelCache extends AbstractValueAdaptingCache {
     public <T> T get(Object key, Callable<T> valueLoader) {
         ValueWrapper wrapper = get(key);
         if (wrapper != null) {
-            return (T) wrapper.get();
+            @SuppressWarnings("unchecked")
+            T value = (T) wrapper.get();
+            return value;
         }
         try {
             T value = valueLoader.call();

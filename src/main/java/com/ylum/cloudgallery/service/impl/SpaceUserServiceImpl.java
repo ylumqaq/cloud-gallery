@@ -147,7 +147,7 @@ public class SpaceUserServiceImpl extends ServiceImpl<SpaceUserMapper, SpaceUser
                 .toList();
         Map<Long, User> userMap = userIds.isEmpty()
                 ? Collections.emptyMap()
-                : userMapper.selectBatchIds(userIds).stream()
+                : userMapper.selectList(new LambdaQueryWrapper<User>().in(User::getId, userIds)).stream()
                         .collect(Collectors.toMap(User::getId, user -> user));
 
         return spaceUsers.stream().map(spaceUser -> {
