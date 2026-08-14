@@ -20,14 +20,13 @@ import jakarta.validation.Valid;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -54,20 +53,7 @@ public class PictureController {
     @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @SaCheckLogin
     @SaSpaceCheckPermission(SpaceUserConstant.PERMISSION_PICTURE_UPLOAD)
-    public BaseResponse<PictureVO> uploadPicture(
-            @RequestPart(value = "file", required = false) MultipartFile file,
-            @RequestParam(value = "fileUrl", required = false) String fileUrl,
-            @RequestParam(value = "spaceId", required = false) Long spaceId,
-            @RequestParam(value = "picName", required = false) String picName,
-            @RequestParam(value = "category", required = false) String category,
-            @RequestParam(value = "tags", required = false) String tags) {
-        PictureUploadRequest request = new PictureUploadRequest();
-        request.setFile(file);
-        request.setFileUrl(fileUrl);
-        request.setSpaceId(spaceId);
-        request.setPicName(picName);
-        request.setCategory(category);
-        request.setTags(tags);
+    public BaseResponse<PictureVO> uploadPicture(@ModelAttribute PictureUploadRequest request) {
         return ResultUtils.success(pictureService.uploadPicture(request));
     }
 
@@ -129,16 +115,7 @@ public class PictureController {
     @Operation(summary = "以图搜图")
     @PostMapping(value = "/search/by/picture", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @SaCheckLogin
-    public BaseResponse<List<PictureVO>> searchPictureByPicture(
-            @RequestPart(value = "file", required = false) MultipartFile file,
-            @RequestParam(value = "fileUrl", required = false) String fileUrl,
-            @RequestParam(value = "spaceId", required = false) Long spaceId,
-            @RequestParam(value = "topK", required = false) Integer topK) {
-        PictureSearchByPictureRequest request = new PictureSearchByPictureRequest();
-        request.setFile(file);
-        request.setFileUrl(fileUrl);
-        request.setSpaceId(spaceId);
-        request.setTopK(topK);
+    public BaseResponse<List<PictureVO>> searchPictureByPicture(@ModelAttribute PictureSearchByPictureRequest request) {
         return ResultUtils.success(pictureService.searchPictureByPicture(request));
     }
 
