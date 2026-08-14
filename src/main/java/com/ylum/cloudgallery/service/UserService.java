@@ -39,4 +39,12 @@ public interface UserService extends IService<User> {
      * 退出登录，清除当前会话。
      */
     void userLogout();
+
+    /**
+     * 修改指定用户的角色（仅高级管理员可调用）。
+     *
+     * @param targetUserId 目标用户 ID
+     * @param userRole     目标角色（user / admin / super_admin）
+     */
+    void updateUserRole(Long targetUserId, String userRole);
 }

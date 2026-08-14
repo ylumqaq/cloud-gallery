@@ -132,7 +132,7 @@ public class SpaceServiceImpl extends ServiceImpl<SpaceMapper, Space> implements
             return;
         }
         User user = userMapper.selectById(userId);
-        boolean admin = user != null && UserConstant.ADMIN_ROLE.equals(user.getUserRole());
+        boolean admin = user != null && UserConstant.hasAdminRole(user.getUserRole());
         if (!admin) {
             throw new BusinessException(ErrorCode.NO_AUTH_ERROR, "仅创建者或管理员可操作");
         }

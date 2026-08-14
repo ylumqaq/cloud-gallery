@@ -19,6 +19,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  *
  * <p>基于真实 Spring 上下文 + MockMvc 发起请求，方法运行在事务中并自动回滚，
  * 避免污染数据库。context-path（/api）属于 Servlet 容器层，MockMvc 请求路径无需携带。</p>
+ *
+ * <p><b>用户角色管理接口（{@code PUT /user/role}）集成测试说明：</b>
+ * 该接口依赖真实的 super_admin 账号与 Sa-Token 注解鉴权（{@code @SaCheckRole}），
+ * 集成测试需先预置一个 super_admin 角色账号（如直接写库 {@code UPDATE user SET user_role='super_admin'}）
+ * 再登录获取 token 发起请求。其核心校验逻辑已由单元测试覆盖
+ * （{@code UserServiceImplTest}、{@code StpInterfaceImplTest}、{@code UserConstantTest}），
+ * 本阶段暂不在此基类或其子类中新增该接口的集成测试用例。</p>
  */
 @SpringBootTest
 @AutoConfigureMockMvc

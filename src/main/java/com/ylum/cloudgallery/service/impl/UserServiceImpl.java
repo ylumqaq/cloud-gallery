@@ -2,6 +2,7 @@ package com.ylum.cloudgallery.service.impl;
 
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.crypto.digest.BCrypt;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.spring.service.impl.ServiceImpl;
 import com.ylum.cloudgallery.common.BusinessException;
 import com.ylum.cloudgallery.common.ErrorCode;
@@ -103,5 +104,57 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     public void userLogout() {
         StpUtil.logout();
+    }
+
+    /**
+     * 修改指定用户的角色。
+     *
+     * <p>仅高级管理员（super_admin）可调用。安全限制：</p>
+     * <ul>
+     *     <li>目标角色必须是 user / admin / super_admin 三种合法值之一；</li>
+     *     <li>禁止修改自己的角色，避免误降级导致系统失去高级管理员；</li>
+     *     <li>禁止移除系统中最后一个高级管理员。</li>
+     * </ul>
+     */
+    @Override
+    public void updateUserRole(Long targetUserId, String userRole) {
+        // 目标角色合法性白名单校验，拦截非法角色值
+        if (!UserConstant.isLegalRole(userRole)) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR, "目标角色不合法");
+        }
+
+        // 校验当前操作者必须是高级管理员
+        long currentUserId = StpUtil.getLoginIdAsLong();
+        User currentUser = this.getById(currentUserId);
+        if (currentUser == null || !UserConstant.SUPER_ADMIN_ROLE.equals(currentUser.getUserRole())) {
+            throw new BusinessException(ErrorCode.NO_AUTH_ERROR, "仅高级管理员可修改用户角色");
+        }
+
+        // 禁止修改自己的角色，防止高级管理员误操作把自己降级
+        if (Objects.equals(currentUserId, targetUserId)) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR, "不能修改自己的角色");
+        }
+
+        // 目标用户必须存在
+        User targetUser = this.getById(targetUserId);
+        if (targetUser == null) {
+            throw new BusinessException(ErrorCode.NOT_FOUND_ERROR, "目标用户不存在");
+        }
+
+        // 若目标用户当前是高级管理员且正被降级，需保证系统中至少还保留一个高级管理员
+        if (UserConstant.SUPER_ADMIN_ROLE.equals(targetUser.getUserRole())
+                && !UserConstant.SUPER_ADMIN_ROLE.equals(userRole)) {
+            long superAdminCount = this.count(new LambdaQueryWrapper<User>()
+                    .eq(User::getUserRole, UserConstant.SUPER_ADMIN_ROLE));
+            if (superAdminCount <= 1) {
+                throw new BusinessException(ErrorCode.OPERATION_ERROR, "系统至少保留一个高级管理员");
+            }
+        }
+
+        targetUser.setUserRole(userRole);
+        boolean updated = this.updateById(targetUser);
+        if (!updated) {
+            throw new BusinessException(ErrorCode.SYSTEM_ERROR, "修改用户角色失败");
+        }
     }
 }

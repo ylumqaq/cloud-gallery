@@ -55,6 +55,7 @@ public class BaseResponse<T> {
 
 - 注册 / 登录接口无需登录；
 - 其余接口需**用户登录**（默认 `StpUtil`，登录态存 Redis）；
+- 系统角色分三级：`user` / `admin` / `super_admin`，其中 `super_admin` 继承 `admin` 全部权限，并可管理其他用户的角色；
 - 空间内图片/成员操作需**空间权限**（`@SaSpaceCheckPermission`）。
 
 ### 5. 权限码
@@ -97,6 +98,18 @@ public class BaseResponse<T> {
 
 - `POST /api/user/logout`
 - 权限：登录
+
+### 5. 修改用户角色（仅高级管理员）
+
+- `PUT /api/user/role`
+- 权限：登录 + 高级管理员（`super_admin`）
+
+| 参数 | 类型 | 说明 |
+| --- | --- | --- |
+| targetUserId | long | 目标用户 ID |
+| userRole | string | 目标角色：user / admin / super_admin |
+
+说明：仅 `super_admin` 可调用；不能修改自己的角色；不能移除系统中最后一个 `super_admin`。
 
 ## 三、图片模块
 

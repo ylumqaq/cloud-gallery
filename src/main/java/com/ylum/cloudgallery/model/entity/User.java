@@ -39,7 +39,7 @@ public class User implements Serializable {
     /** 个人简介 */
     private String userProfile;
 
-    /** 用户角色（user / admin） */
+    /** 用户角色（user / admin / super_admin） */
     private String userRole;
 
     /** 创建时间（插入时自动填充） */

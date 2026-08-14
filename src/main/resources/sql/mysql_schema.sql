@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS `user` (
     `user_name`     VARCHAR(256)  NULL     COMMENT '昵称',
     `user_avatar`   VARCHAR(1024) NULL     COMMENT '头像 URL',
     `user_profile`  VARCHAR(512)  NULL     COMMENT '个人简介',
-    `user_role`     VARCHAR(64)   NOT NULL DEFAULT 'user' COMMENT '用户角色（user / admin）',
+    `user_role`     VARCHAR(64)   NOT NULL DEFAULT 'user' COMMENT '用户角色（user / admin / super_admin）',
     `create_time`   DATETIME      NOT NULL COMMENT '创建时间',
     `update_time`   DATETIME      NOT NULL COMMENT '更新时间',
     `is_delete`     TINYINT       NOT NULL DEFAULT 0 COMMENT '逻辑删除：0 未删除 / 1 已删除',

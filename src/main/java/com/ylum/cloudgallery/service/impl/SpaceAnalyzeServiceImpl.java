@@ -210,7 +210,7 @@ public class SpaceAnalyzeServiceImpl implements SpaceAnalyzeService {
     private void checkAdmin() {
         long userId = StpUtil.getLoginIdAsLong();
         User user = userMapper.selectById(userId);
-        boolean admin = user != null && UserConstant.ADMIN_ROLE.equals(user.getUserRole());
+        boolean admin = user != null && UserConstant.hasAdminRole(user.getUserRole());
         if (!admin) {
             throw new BusinessException(ErrorCode.NO_AUTH_ERROR, "仅管理员可查看空间用量排行");
         }
