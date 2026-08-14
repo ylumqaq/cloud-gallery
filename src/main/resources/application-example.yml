@@ -24,7 +24,7 @@ spring:
       password:                               # 无密码留空
       database: 0
   session:
-    store-type: redis                         # Spring Session 分布式会话，登录态存 Redis
+    # 无需 store-type：Spring Boot 3 已移除该属性，会根据 classpath 中的 spring-session-data-redis 自动使用 Redis 存储
     timeout: 2592000                          # 会话超时（秒），30 天
 
 mybatis-plus:
