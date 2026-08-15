@@ -127,7 +127,7 @@ public class BaseResponse<T> {
 | category | string | 图片分类（可选，用于分类分析） |
 | tags | string | 图片标签（可选，JSON 数组字符串，用于标签分析） |
 
-说明：上传后由 COS 存储、CI 完成图片处理与向量特征提取，向量写入 PostgreSQL。
+说明：上传后由 COS 存储、CI 完成图片处理，并把图片对象加入 CI 图库（entityId 保存图片 ID）。
 
 ### 2. 分页查询图片
 
@@ -169,7 +169,7 @@ public class BaseResponse<T> {
 | --- | --- | --- |
 | id | long | 图片 ID |
 
-说明：同时删除 COS 文件与 PostgreSQL 向量（双删）。
+说明：同时删除 COS 文件与 CI 图库对象（出库）。
 
 ### 6. 批量抓取上传
 
@@ -193,7 +193,7 @@ public class BaseResponse<T> {
 | spaceId | long | 限定搜索的空间（可选） |
 | topK | int | 返回最相似数量，默认 20 |
 
-说明：CI 提取查询图向量 → PostgreSQL 检索相似 `picture_id` → 回 MySQL 查详情。
+说明：查询图临时上传到 COS → CI 图库检索相似图片 ID → 回 MySQL 查详情。
 
 ### 8. 按颜色搜索
 

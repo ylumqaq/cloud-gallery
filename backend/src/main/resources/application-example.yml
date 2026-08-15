@@ -36,24 +36,12 @@ mybatis-plus:
       logic-delete-value: 1                   # 已删除
       logic-not-delete-value: 0               # 未删除
 
-# PostgreSQL 向量库（pgvector），独立数据源
-pg:
-  datasource:
-    url: jdbc:postgresql://localhost:5432/postgres
-    username: postgres
-    password: "你的PostgreSQL密码"              # PostgreSQL 密码（请替换）
-    driver-class-name: org.postgresql.Driver
-
 # 腾讯云 COS / 数据万象 CI（对象存储）
 cos:
   secret-id: "你的腾讯云SecretId"              # 请替换为真实 SecretId
   secret-key: "你的腾讯云SecretKey"            # 请替换为真实 SecretKey
   bucket: "你的Bucket名称"                     # 例如 yu-picture-1317696751
   region: ap-guangzhou                        # 例如 ap-guangzhou
-
-# 以图搜图策略：pg（本地 pgvector，默认）/ ci（腾讯云 CI 托管图片检索）
-image-search:
-  strategy: pg
 
 # Sa-Token 配置
 sa-token:

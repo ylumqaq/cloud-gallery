@@ -28,7 +28,7 @@ import com.ylum.cloudgallery.model.entity.Picture;
 import com.ylum.cloudgallery.model.entity.Space;
 import com.ylum.cloudgallery.model.vo.PictureVO;
 import com.ylum.cloudgallery.service.PictureService;
-import com.ylum.cloudgallery.service.search.ImageSearchStrategy;
+import com.ylum.cloudgallery.service.search.CiImageSearchStrategy;
 import com.ylum.cloudgallery.utils.ColorSimilarUtils;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
@@ -81,7 +81,7 @@ public class PictureServiceImpl extends ServiceImpl<PictureMapper, Picture> impl
     private SpaceUserAuthManager spaceUserAuthManager;
 
     @Resource
-    private ImageSearchStrategy imageSearchStrategy;
+    private CiImageSearchStrategy ciImageSearchStrategy;
 
     /**
      * 上传图片（本地文件或 URL）。
@@ -185,8 +185,8 @@ public class PictureServiceImpl extends ServiceImpl<PictureMapper, Picture> impl
             throw new BusinessException(ErrorCode.SYSTEM_ERROR, "删除图片失败");
         }
 
-        // 双删：删除向量（pg）或 CI 图库出库（ci），最终一致，失败不抛异常
-        imageSearchStrategy.onDelete(picture);
+        // CI 图库出库，最终一致，失败不抛异常
+        ciImageSearchStrategy.onDelete(picture);
 
         // 再删除 COS 对象（失败仅产生孤儿对象，不抛异常）
         deleteCosObjects(picture);
@@ -213,8 +213,8 @@ public class PictureServiceImpl extends ServiceImpl<PictureMapper, Picture> impl
             // 将查询图（本地文件或 URL）转为本地临时文件
             queryFile = resolveQueryFile(request);
 
-            // 调用策略检索相似图片 ID（pg 策略在 PG 层按空间过滤，ci 策略由下方 MySQL 兜底过滤）
-            List<Long> pictureIds = imageSearchStrategy.search(queryFile, spaceId, topK);
+            // 调用 CI 检索相似图片 ID（空间过滤由下方 MySQL 兜底）
+            List<Long> pictureIds = ciImageSearchStrategy.search(queryFile, spaceId, topK);
             if (pictureIds.isEmpty()) {
                 return List.of();
             }
@@ -343,8 +343,8 @@ public class PictureServiceImpl extends ServiceImpl<PictureMapper, Picture> impl
             compensateDeleteCosObjects(result);
             throw new BusinessException(ErrorCode.SYSTEM_ERROR, "保存图片失败");
         }
-        // 元数据落库后写入向量（pg）或 CI 图库入库（ci），最终一致，失败不影响上传
-        imageSearchStrategy.onUpload(picture, result);
+        // 元数据落库后 CI 图库入库，最终一致，失败不影响上传
+        ciImageSearchStrategy.onUpload(picture, result);
         return toPictureVO(picture);
     }
 

@@ -76,12 +76,6 @@
             <artifactId>mysql-connector-j</artifactId>
         </dependency>
 
-        <!-- PostgreSQL 驱动（向量库 pgvector） -->
-        <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-        </dependency>
-
         <!-- 权限认证：Sa-Token（Spring Boot 3 专用 starter） -->
         <dependency>
             <groupId>cn.dev33</groupId>

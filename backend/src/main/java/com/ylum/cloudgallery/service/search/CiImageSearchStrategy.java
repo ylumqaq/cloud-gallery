@@ -8,7 +8,6 @@ import com.ylum.cloudgallery.manager.upload.model.UploadPictureResult;
 import com.ylum.cloudgallery.model.entity.Picture;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
@@ -17,7 +16,7 @@ import java.net.URL;
 import java.util.List;
 
 /**
- * 腾讯云数据万象 CI 托管图片检索策略。
+ * 腾讯云数据万象 CI 托管图片检索。
  *
  * <p>不提取中间向量，直接复用 CI 的「以图搜图」能力：上传成功后把图片对象加入 CI 图库
  * （{@code entityId} 存图片 ID），检索时把查询图临时上传到 COS 后调用 CI 检索接口，返回的
@@ -25,18 +24,11 @@ import java.util.List;
  */
 @Slf4j
 @Component
-@ConditionalOnProperty(prefix = "image-search", name = "strategy", havingValue = "ci")
-public class CiImageSearchStrategy implements ImageSearchStrategy {
+public class CiImageSearchStrategy {
 
     @Resource
     private CosManager cosManager;
 
-    @Override
-    public String name() {
-        return "ci";
-    }
-
-    @Override
     public void onUpload(Picture picture, UploadPictureResult result) {
         try {
             // entityId 保存图片 ID，检索时由 CI 原样带回
@@ -46,7 +38,6 @@ public class CiImageSearchStrategy implements ImageSearchStrategy {
         }
     }
 
-    @Override
     public void onDelete(Picture picture) {
         try {
             String key = extractKey(picture.getUrl());
@@ -58,7 +49,6 @@ public class CiImageSearchStrategy implements ImageSearchStrategy {
         }
     }
 
-    @Override
     public List<Long> search(File queryFile, Long spaceId, int topK) {
         // CI 检索要求查询图位于 COS 上，先上传到临时对象，检索完成后删除
         String suffix = FileUtil.getSuffix(queryFile.getName());

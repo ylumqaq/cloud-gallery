@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 /**
  * 图片实体，对应 MySQL 中的 picture 表。
  *
- * <p>图片元数据存 MySQL，特征向量存 PostgreSQL（阶段 5 落地）。
+ * <p>图片元数据存 MySQL，以图搜图由腾讯云数据万象 CI 托管。
  * 按 {@code space_id} 分表，公共图库图片的 {@code space_id} 为空。</p>
  */
 @Data
@@ -23,7 +23,7 @@ public class Picture implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    /** 图片 ID（雪花 ID，作为与向量表的关联键） */
+    /** 图片 ID（雪花 ID，作为 CI 图库的 entityId 关联键） */
     @TableId(type = IdType.ASSIGN_ID)
     private Long id;
 
