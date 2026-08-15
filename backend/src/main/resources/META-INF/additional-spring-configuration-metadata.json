@@ -1,0 +1,49 @@
+{
+  "properties": [
+    {
+      "name": "pg.datasource.url",
+      "type": "java.lang.String",
+      "description": "PostgreSQL 向量库（pgvector）JDBC 连接地址"
+    },
+    {
+      "name": "pg.datasource.username",
+      "type": "java.lang.String",
+      "description": "PostgreSQL 向量库用户名"
+    },
+    {
+      "name": "pg.datasource.password",
+      "type": "java.lang.String",
+      "description": "PostgreSQL 向量库密码"
+    },
+    {
+      "name": "pg.datasource.driver-class-name",
+      "type": "java.lang.String",
+      "description": "PostgreSQL JDBC 驱动类名"
+    },
+    {
+      "name": "cos.secret-id",
+      "type": "java.lang.String",
+      "description": "腾讯云 API 密钥 SecretId"
+    },
+    {
+      "name": "cos.secret-key",
+      "type": "java.lang.String",
+      "description": "腾讯云 API 密钥 SecretKey"
+    },
+    {
+      "name": "cos.bucket",
+      "type": "java.lang.String",
+      "description": "腾讯云 COS 存储桶名称"
+    },
+    {
+      "name": "cos.region",
+      "type": "java.lang.String",
+      "description": "腾讯云 COS 地域，如 ap-guangzhou"
+    },
+    {
+      "name": "image-search.strategy",
+      "type": "java.lang.String",
+      "description": "以图搜图策略：pg（本地 pgvector，默认）/ ci（腾讯云 CI 托管图片检索）"
+    }
+  ]
+}

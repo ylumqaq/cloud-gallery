@@ -6,8 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "preview": "vite preview",
-    "deploy": "deno -Ar https://host.retiehe.com/cli deploy"
+    "preview": "vite preview"
   },
   "dependencies": {
     "@ant-design/icons": "^6.3.2",

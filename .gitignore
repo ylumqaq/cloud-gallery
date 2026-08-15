@@ -1,5 +1,5 @@
 # ===== Maven 编译产物 =====
-target/
+backend/target/
 
 # ===== IDE / 编辑器配置 =====
 .vscode/
@@ -7,7 +7,7 @@ target/
 
 # ===== 敏感配置（含真实密钥，不提交到仓库）=====
 # 请复制 application-example.yml 为 application.yml 并填入真实配置
-src/main/resources/application.yml
+backend/src/main/resources/application.yml
 
 # ===== 日志文件 =====
 *.log
@@ -25,14 +25,11 @@ Thumbs.db
 # ===== 个人文档（不提交到仓库） =====
 docs/项目简历.md
 
-# ===== Deno 缓存（热铁盒部署产生）=====
-.deno_dir/
-
 # ===== 前端（frontend）构建产物与密钥 =====
 frontend/dist/
 frontend/.env
 
 # ===== 部署脚本（含服务器 IP 等敏感信息，不提交到仓库）=====
-/deploy-server.ps1
+/backend/deploy-server.ps1
 /package.json
 /frontend/deploy-server.ps1
