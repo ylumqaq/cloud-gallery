@@ -23,7 +23,7 @@ Thumbs.db
 *.bak
 
 # ===== 个人文档（不提交到仓库） =====
-docs/项目简历.md
+docs/backend/项目简历.md
 
 # ===== 前端（frontend）构建产物与密钥 =====
 frontend/dist/
