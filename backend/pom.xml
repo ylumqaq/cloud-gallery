@@ -14,7 +14,7 @@
 
     <groupId>com.ylum</groupId>
     <artifactId>cloud-gallery</artifactId>
-    <version>1.0.0</version>
+    <version>1.1.0</version>
     <name>cloud-gallery</name>
     <description>云图库后端</description>
 
