@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Button, Card, Form, Input, message } from 'antd'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { useUserStore } from '../stores/user'
 
 // 登录表单字段
@@ -14,13 +14,16 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false)
   const login = useUserStore((state) => state.login)
   const navigate = useNavigate()
+  const location = useLocation()
 
   async function onFinish(values: LoginForm) {
     setLoading(true)
     try {
       await login(values.userAccount, values.userPassword)
       message.success('登录成功')
-      navigate('/', { replace: true })
+      // 登录成功后跳转来源路径（未登录访问受保护路由时由 RequireAuth 携带），否则回首页
+      const from = (location.state as { from?: string } | null)?.from
+      navigate(from || '/', { replace: true })
     } catch {
       // 错误提示已由请求拦截器统一处理
     } finally {

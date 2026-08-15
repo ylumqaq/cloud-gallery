@@ -3,7 +3,7 @@ import type { SpaceAddRequest, SpaceEditRequest, SpaceVO } from '../types/space'
 
 // 创建空间
 export function addSpaceApi(data: SpaceAddRequest) {
-  return request<SpaceVO>({ url: '/space/add', method: 'post', data })
+  return request<number>({ url: '/space/add', method: 'post', data })
 }
 
 // 编辑空间

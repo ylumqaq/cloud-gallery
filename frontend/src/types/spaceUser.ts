@@ -7,6 +7,7 @@ export interface SpaceUserVO {
   spaceId: number
   userId: number
   spaceRole: SpaceRole
+  createTime?: string
   userAccount?: string
   userName?: string
   userAvatar?: string
@@ -26,8 +27,8 @@ export interface SpaceUserEditRequest {
   spaceRole: SpaceRole
 }
 
-// 当前用户在某空间的权限响应
+// 当前用户在某空间的权限（对应后端 SpaceUserAuthVO）
 export interface SpaceUserPermissionVO {
-  spaceRole?: SpaceRole
-  permissionList: string[] // 权限码列表
+  role?: 'creator' | SpaceRole // creator（创建者）/ viewer / editor / admin；公共图库或非成员为 null
+  permissions: string[] // 权限码列表
 }

@@ -9,8 +9,10 @@ export interface PictureVO {
   picSize?: number
   picWidth?: number
   picHeight?: number
+  picFormat?: string
   picColor?: string
   spaceId?: number // 空 = 公共图库
+  userId?: number
   createTime?: string
   editTime?: string
 }

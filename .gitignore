@@ -1,5 +1,6 @@
 # ===== Maven 编译产物 =====
 backend/target/
+target/
 
 # ===== IDE / 编辑器配置 =====
 .vscode/

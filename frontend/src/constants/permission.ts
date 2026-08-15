@@ -23,3 +23,9 @@ export const SPACE_ROLE = {
   EDITOR: 'editor',
   ADMIN: 'admin',
 } as const
+
+// 公共图库默认权限（与后端 spaceUserAuthConfig.json 的 publicPermissions 一致）
+export const PUBLIC_PERMISSIONS: PermissionCode[] = [
+  PERMISSION.PICTURE_VIEW,
+  PERMISSION.PICTURE_UPLOAD,
+]

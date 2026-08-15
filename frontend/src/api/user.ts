@@ -1,5 +1,5 @@
 import { request } from './request'
-import type { LoginResultVO, LoginUserVO, UserLoginRequest, UserRegisterRequest } from '../types/user'
+import type { LoginUserVO, UserLoginRequest, UserRegisterRequest, UserVO } from '../types/user'
 
 // 注册
 export function registerApi(data: UserRegisterRequest) {
@@ -8,12 +8,12 @@ export function registerApi(data: UserRegisterRequest) {
 
 // 登录
 export function loginApi(data: UserLoginRequest) {
-  return request<LoginResultVO>({ url: '/user/login', method: 'post', data })
+  return request<LoginUserVO>({ url: '/user/login', method: 'post', data })
 }
 
 // 获取当前登录用户
 export function getLoginUserApi() {
-  return request<LoginUserVO>({ url: '/user/get/login', method: 'get' })
+  return request<UserVO>({ url: '/user/get/login', method: 'get' })
 }
 
 // 退出登录
